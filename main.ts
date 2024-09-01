@@ -15,7 +15,7 @@ export default class RecallPlugin extends Plugin {
       window.setInterval(() => this.reconcile(this.settings.recallFolderName), 7 * 24 * 60 * 60 * 1000)
     );
 
-    const ribbonIconEl = this.addRibbonIcon('timer', 'Recall', async () => {
+    const ribbonIconEl = this.addRibbonIcon('brain', 'Recall', async () => {
       new Notice('Reconciling notes ⏲');
       await this.reconcile(this.settings.recallFolderName)
     });
@@ -53,6 +53,10 @@ export default class RecallPlugin extends Plugin {
     await this.createRecallIfNotExists(recallFolderName)
     const files = this.vault.getMarkdownFiles()
     files.forEach(async (file: TFile) => {
+      if (this.settings.ignoreFolders.some(folder => file.path.startsWith(folder))) {
+        return
+      }
+
       const stat = await this.vault.adapter.stat(file.path);
       if (!stat) return;
       const lastModified = stat.mtime;
