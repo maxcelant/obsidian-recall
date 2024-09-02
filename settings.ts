@@ -1,12 +1,12 @@
 import RecallPlugin from "./main";
 import { App, PluginSettingTab, Setting, TextComponent } from "obsidian";
 
-export interface MyPluginSettings {
+export interface RecallSettings {
   recallFolderName: string;
   ignoreFolders: string[];
 }
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
+export const DEFAULT_SETTINGS: RecallSettings = {
   recallFolderName: 'recall',
   ignoreFolders: []
 }

@@ -1,8 +1,8 @@
 import { Notice, Plugin, TFile, Vault } from 'obsidian';
-import { DEFAULT_SETTINGS, MyPluginSettings, RecallSettingTab } from 'settings';
+import { DEFAULT_SETTINGS, RecallSettings, RecallSettingTab } from 'settings';
 
 export default class RecallPlugin extends Plugin {
-  settings: MyPluginSettings;
+  settings: RecallSettings;
   vault: Vault;
 
   async onload() {
@@ -59,13 +59,17 @@ export default class RecallPlugin extends Plugin {
 
       const stat = await this.vault.adapter.stat(file.path);
       if (!stat) return;
+      
       const lastModified = stat.mtime;
       const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   
       if (lastModified < oneWeekAgo) {
         const content = await this.vault.read(file);
         const newPath = `${recallFolderName}/${file.name}`;
-        await this.vault.create(newPath, content);
+        if (!(await this.vault.adapter.exists(newPath))) {
+          console.log(newPath)
+          await this.vault.create(newPath, content);
+        }
       }
     })
   }
