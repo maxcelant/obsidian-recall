@@ -17,7 +17,6 @@ export default class FileStore {
 			if (file instanceof TFile) {
 				const data = await this.vault.read(file);
 				this.store = JSON.parse(data);
-				console.log("Data loaded:", this.store);
 			} else {
 				console.log("Store file not found. Creating new store.");
 				this.store = {};
@@ -38,7 +37,6 @@ export default class FileStore {
 		const json = JSON.stringify(this.store, null, 2);
 		try {
 			await this.vault.adapter.write(this.storePath, json);
-			console.log("Data saved successfully");
 		} catch (error) {
 			console.error("Error saving file store:", error);
 		}
