@@ -2,26 +2,29 @@ import { TFile, Vault } from "obsidian";
 import { RecallSettings } from "settings";
 
 export class Reconciler {
+	private recallFolderName: string;
 	constructor(
 		private vault: Vault,
 		private settings: RecallSettings,
-	) {}
+	) {
+		this.recallFolderName = this.settings.recallFolderName;
+	}
 
-	private async createRecallFolderIfNotExists(recallFolderName: string) {
-		if (!(await this.vault.adapter.exists(recallFolderName))) {
-			await this.vault.createFolder(recallFolderName);
+	private async createRecallFolderIfNotExists() {
+		if (!(await this.vault.adapter.exists(this.recallFolderName))) {
+			await this.vault.createFolder(this.recallFolderName);
 		}
 	}
 
-	private addRecallFolderToIgnores(recallFolderName: string) {
+	private addRecallFolderToIgnores() {
 		if (
 			!this.settings.ignoreFolders.some(
-				(f) => f === this.settings.recallFolderName,
+				(f) => f === this.recallFolderName,
 			)
 		) {
 			this.settings.ignoreFolders = [
 				...this.settings.ignoreFolders,
-				this.settings.recallFolderName,
+				this.recallFolderName,
 			];
 		}
 	}
@@ -32,9 +35,9 @@ export class Reconciler {
 		);
 	}
 
-	async reconcile(recallFolderName: string) {
-		await this.createRecallFolderIfNotExists(recallFolderName);
-		this.addRecallFolderToIgnores(recallFolderName);
+	async reconcile() {
+		await this.createRecallFolderIfNotExists();
+		this.addRecallFolderToIgnores();
 		this.vault.getMarkdownFiles().forEach(async (file: TFile) => {
 			if (this.isIgnoredFolder(file)) {
 				return;
@@ -44,11 +47,13 @@ export class Reconciler {
 			if (!stat) return;
 
 			const lastModified = stat.mtime;
-			const stalenessDate = Date.now() - Number(this.settings.stalenessThreshold) * 24 * 60 * 60 * 1000;
+			const stalenessDate =
+				Date.now() -
+				Number(this.settings.stalenessThreshold) * 24 * 60 * 60 * 1000;
 
 			if (lastModified < stalenessDate) {
 				const content = await this.vault.read(file);
-				const newPath = `${recallFolderName}/${file.name}`;
+				const newPath = `${this.recallFolderName}/${file.name}`;
 				if (!(await this.vault.adapter.exists(newPath))) {
 					console.log(newPath);
 					await this.vault.create(newPath, content);

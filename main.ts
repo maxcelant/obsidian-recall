@@ -15,14 +15,14 @@ export default class RecallPlugin extends Plugin {
 
 		this.registerInterval(
 			window.setInterval(
-				() => reconciler.reconcile(this.settings.recallFolderName),
+				() => reconciler.reconcile(),
 				7 * 24 * 60 * 60 * 1000,
 			),
 		);
 
 		const ribbonIconEl = this.addRibbonIcon("brain", "Recall", async () => {
 			new Notice("Reconciling notes ⏲");
-			await reconciler.reconcile(this.settings.recallFolderName);
+			await reconciler.reconcile();
 		});
 
 		ribbonIconEl.addClass("my-plugin-ribbon-class");
@@ -35,7 +35,7 @@ export default class RecallPlugin extends Plugin {
 			name: "Perform vault recall",
 			callback: async () => {
 				new Notice("Reconciling notes ⏲");
-				await reconciler.reconcile(this.settings.recallFolderName);
+				await reconciler.reconcile();
 			},
 		});
 	}
