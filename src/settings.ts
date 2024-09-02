@@ -60,11 +60,13 @@ export class RecallSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("Reconcile Period (in days)")
-			.setDesc("How often your vault should be reconciled for old notes")
+			.setName("Reconciliation Period (in hours)")
+			.setDesc(
+				"How often your vault should be reconciled for old notes (15 minute increments)",
+			)
 			.addSlider((slider) =>
 				slider
-					.setLimits(0.25, 15, 0.25)
+					.setLimits(0.25, 24, 0.25)
 					.setValue(this.plugin.settings.reconcilePeriod)
 					.setDynamicTooltip()
 					.onChange(async (value) => {

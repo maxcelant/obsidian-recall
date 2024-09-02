@@ -1,10 +1,6 @@
 import { Notice, Plugin, Vault } from "obsidian";
-import {
-	DEFAULT_SETTINGS,
-	RecallSettings,
-	RecallSettingTab,
-} from "src/settings";
-import Reconciler from "src/reconciler";
+import { DEFAULT_SETTINGS, RecallSettings, RecallSettingTab } from "./settings";
+import Reconciler from "./reconciler";
 
 export default class RecallPlugin extends Plugin {
 	settings: RecallSettings;
@@ -23,13 +19,20 @@ export default class RecallPlugin extends Plugin {
 
 		this.registerInterval(
 			window.setInterval(
-				() => reconciler.reconcile(),
-				Number(this.settings.reconcilePeriod) * 24 * 60 * 60 * 1000,
+				() => {
+					new Notice(
+						`Scanning vault for notes to recall and adding them to /${this.settings.recallFolderName} 🔍`,
+					);
+					reconciler.reconcile();
+				},
+				Number(this.settings.reconcilePeriod) * 60 * 60 * 1000,
 			),
 		);
 
 		const ribbonIconEl = this.addRibbonIcon("brain", "Recall", async () => {
-			new Notice("Reconciling notes ⏲");
+			new Notice(
+				`Scanning vault for notes to recall and adding them to /${this.settings.recallFolderName} 🔍`,
+			);
 			await reconciler.reconcile();
 		});
 
@@ -42,7 +45,9 @@ export default class RecallPlugin extends Plugin {
 			id: "recall",
 			name: "Perform vault recall",
 			callback: async () => {
-				new Notice("Reconciling notes ⏲");
+				new Notice(
+					`Scanning vault for notes to recall and adding them to /${this.settings.recallFolderName} 🔍`,
+				);
 				await reconciler.reconcile();
 			},
 		});

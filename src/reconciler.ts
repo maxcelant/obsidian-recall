@@ -1,5 +1,5 @@
 import { App, TFile, Vault } from "obsidian";
-import { RecallSettings } from "src/settings";
+import { RecallSettings } from "./settings";
 
 export default class Reconciler {
 	private recallFolderName: string;
