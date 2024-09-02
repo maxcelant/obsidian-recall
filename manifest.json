@@ -3,7 +3,7 @@
 	"name": "Recall Plugin",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Helps you retain your notes",
+	"description": "Reintroduces stale notes to help knowledge retention.",
 	"author": "maxcelant",
 	"authorUrl": "https://github.com/maxcelant",
 	"fundingUrl": "https://github.com/maxcelant",
