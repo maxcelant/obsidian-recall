@@ -1,6 +1,6 @@
 import { Notice, Plugin, Vault } from "obsidian";
-import { Reconciler } from "reconciler";
-import { DEFAULT_SETTINGS, RecallSettings, RecallSettingTab } from "settings";
+import { DEFAULT_SETTINGS, RecallSettings, RecallSettingTab } from "src/settings";
+import Reconciler from "src/reconciler";
 
 export default class RecallPlugin extends Plugin {
 	settings: RecallSettings;
@@ -11,7 +11,11 @@ export default class RecallPlugin extends Plugin {
 
 		this.addSettingTab(new RecallSettingTab(this.app, this));
 
-		const reconciler = new Reconciler(this.app.vault, this.settings);
+		const reconciler = new Reconciler(
+			this.app,
+			this.app.vault,
+			this.settings,
+		);
 
 		this.registerInterval(
 			window.setInterval(

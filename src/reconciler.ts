@@ -1,9 +1,10 @@
-import { TFile, Vault } from "obsidian";
-import { RecallSettings } from "settings";
+import { App, TFile, Vault } from "obsidian";
+import { RecallSettings } from "src/settings";
 
-export class Reconciler {
+export default class Reconciler {
 	private recallFolderName: string;
 	constructor(
+		private app: App,
 		private vault: Vault,
 		private settings: RecallSettings,
 	) {
@@ -35,6 +36,11 @@ export class Reconciler {
 		);
 	}
 
+	async touchFile(file: TFile) {
+		const content = await this.app.vault.read(file);
+		await this.app.vault.modify(file, content);
+	}
+
 	async reconcile() {
 		await this.createRecallFolderIfNotExists();
 		this.addRecallFolderToIgnores();
@@ -52,10 +58,10 @@ export class Reconciler {
 				Number(this.settings.stalenessThreshold) * 24 * 60 * 60 * 1000;
 
 			if (lastModified < stalenessDate) {
+				await this.touchFile(file);
 				const content = await this.vault.read(file);
 				const newPath = `${this.recallFolderName}/${file.name}`;
 				if (!(await this.vault.adapter.exists(newPath))) {
-					console.log(newPath);
 					await this.vault.create(newPath, content);
 				}
 			}

@@ -1,4 +1,4 @@
-import RecallPlugin from "./main";
+import RecallPlugin from "../main";
 import { App, PluginSettingTab, Setting, TextComponent } from "obsidian";
 
 export interface RecallSettings {
@@ -86,7 +86,7 @@ export class RecallSettingTab extends PluginSettingTab {
 		this.ignoreFoldersEl.empty();
 
 		this.plugin.settings.ignoreFolders.forEach((folder, index) => {
-			const setting = new Setting(this.ignoreFoldersEl)
+			new Setting(this.ignoreFoldersEl)
 				.setName(folder)
 				.addButton((button) =>
 					button.setIcon("trash").onClick(async () => {
