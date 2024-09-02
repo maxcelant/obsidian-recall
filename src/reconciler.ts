@@ -52,8 +52,7 @@ export default class Reconciler {
 
 		const lastModified = stat.mtime;
 		const stalenessDate =
-			Date.now() -
-			Number(this.settings.stalenessThreshold) * 24 * 60 * 60 * 1000;
+			Date.now() - Number(this.settings.stalenessThreshold) * 24 * 60 * 60 * 1000;
 
 		const lastViewedStr = this.fileStore.get(file);
 		const lastViewed = lastViewedStr
@@ -63,7 +62,7 @@ export default class Reconciler {
 		if (!lastViewed) {
 			return lastModified < stalenessDate;
 		}
-		return lastModified < stalenessDate && lastViewed < stalenessDate;
+		return lastModified < stalenessDate || lastViewed < stalenessDate;
 	}
 
 	async reconcile(): Promise<number> {
