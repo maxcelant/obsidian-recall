@@ -44,9 +44,9 @@ export class Reconciler {
 			if (!stat) return;
 
 			const lastModified = stat.mtime;
-			const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+			const stalenessDate = Date.now() - Number(this.settings.stalenessThreshold) * 24 * 60 * 60 * 1000;
 
-			if (lastModified < oneWeekAgo) {
+			if (lastModified < stalenessDate) {
 				const content = await this.vault.read(file);
 				const newPath = `${recallFolderName}/${file.name}`;
 				if (!(await this.vault.adapter.exists(newPath))) {

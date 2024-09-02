@@ -3,11 +3,13 @@ import { App, PluginSettingTab, Setting, TextComponent } from "obsidian";
 
 export interface RecallSettings {
 	recallFolderName: string;
+  stalenessThreshold: string;
 	ignoreFolders: string[];
 }
 
 export const DEFAULT_SETTINGS: RecallSettings = {
 	recallFolderName: "recall",
+  stalenessThreshold: '7',
 	ignoreFolders: [],
 };
 
@@ -38,6 +40,19 @@ export class RecallSettingTab extends PluginSettingTab {
 						await this.plugin.saveSettings();
 					}),
 			);
+
+      new Setting(containerEl)
+      .setName("Staleness Threshold (in days)")
+      .setDesc("The amount of day(s) it takes for a note to be considered 'stale'")
+      .addText((text) =>
+        text
+          .setPlaceholder('7')
+          .setValue(String(this.plugin.settings.stalenessThreshold))
+          .onChange(async (value) => {
+            this.plugin.settings.stalenessThreshold = value;
+            await this.plugin.saveSettings();
+          }),
+      );
 
 		new Setting(containerEl)
 			.setName("Ignore Folders")
