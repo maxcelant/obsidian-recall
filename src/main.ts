@@ -6,20 +6,17 @@ import FileStore from "./store";
 export default class RecallPlugin extends Plugin {
 	settings: RecallSettings;
 	vault: Vault;
-	fileStore: FileStore
+	fileStore: FileStore;
 
 	async onload() {
 		await this.loadSettings();
 
 		this.addSettingTab(new RecallSettingTab(this.app, this));
 
-		this.fileStore = new FileStore(this.app.vault)
-		await this.fileStore.load()
+		this.fileStore = new FileStore(this.app.vault);
+		await this.fileStore.load();
 
-		const reconciler = new Reconciler(
-			this.app,
-			this.settings,
-		);
+		const reconciler = new Reconciler(this.app, this.settings);
 
 		this.registerInterval(
 			window.setInterval(
