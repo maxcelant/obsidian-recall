@@ -72,9 +72,8 @@ export default class Reconciler {
 		const files = this.vault.getMarkdownFiles();
 		for (const file of files) {
 			if (this.isIgnoredFolder(file)) {
-				return;
+				continue;
 			}
-
 			if (await this.unvisited(file)) {
 				await this.touchFile(file);
 				const content = await this.vault.read(file);

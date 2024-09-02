@@ -6,11 +6,11 @@ The Obsidian Recall Plugin is designed to help you revisit and reinforce your kn
 
 ## Features
 
-- **Automatic Note Tracking**: Monitors the last viewed and modified times of your notes.
-- **Customizable Staleness Threshold**: Set how long a note should be untouched before it's considered for recall.
-- **Dedicated Recall Folder**: Automatically creates copies of stale notes in a specified "Recall" folder for easy review.
-- **Ignorable Folders**: Customize which folders should be excluded from the recall process.
-- **Manual Trigger**: Ability to manually initiate the recall process via a ribbon icon or command.
+-   **Automatic Note Tracking**: Monitors the last viewed and modified times of your notes.
+-   **Customizable Staleness Threshold**: Set how long a note should be untouched before it's considered for recall.
+-   **Dedicated Recall Folder**: Automatically creates copies of stale notes in a specified "Recall" folder for easy review.
+-   **Ignorable Folders**: Customize which folders should be excluded from the recall process.
+-   **Manual Trigger**: Ability to manually initiate the recall process via a ribbon icon or command.
 
 ## Installation
 
@@ -32,10 +32,10 @@ Once installed and enabled, the plugin will start tracking your note interaction
 
 In the plugin settings, you can customize:
 
-- **Staleness Threshold**: Set the number of days after which a note is considered stale.
-- **Recall Folder Name**: Choose the name of the folder where stale notes will be copied.
-- **Ignored Folders**: Specify folders that should be excluded from the recall process.
-- **Reconciliation Period**: Set how often (in hours) the plugin should automatically check for stale notes.
+-   **Staleness Threshold**: Set the number of days after which a note is considered stale.
+-   **Recall Folder Name**: Choose the name of the folder where stale notes will be copied.
+-   **Ignored Folders**: Specify folders that should be excluded from the recall process.
+-   **Reconciliation Period**: Set how often (in hours) the plugin should automatically check for stale notes.
 
 ## FAQ
 
