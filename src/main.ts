@@ -18,7 +18,6 @@ export default class RecallPlugin extends Plugin {
 
 		const reconciler = new Reconciler(
 			this.app,
-			this.app.vault,
 			this.settings,
 		);
 

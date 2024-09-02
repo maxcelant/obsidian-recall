@@ -2,12 +2,14 @@ import { App, TFile, Vault } from "obsidian";
 import { RecallSettings } from "./settings";
 
 export default class Reconciler {
+	private app: App;
+	private vault: Vault;
+	private settings: RecallSettings;
 	private recallFolderName: string;
-	constructor(
-		private app: App,
-		private vault: Vault,
-		private settings: RecallSettings,
-	) {
+	constructor(app: App, settings: RecallSettings) {
+		this.app = app;
+		this.vault = app.vault;
+		this.settings = settings;
 		this.recallFolderName = this.settings.recallFolderName;
 	}
 
