@@ -20,6 +20,8 @@ https://github.com/user-attachments/assets/22ea69dc-ec27-4a20-83c1-9e30a84d8738
 -   **Ignorable Folders**: Customize which folders should be excluded from the recall process.
 -   **Manual Trigger**: Ability to manually initiate the recall process via a ribbon icon or command.
 
+><img width="1439" alt="image" src="https://github.com/user-attachments/assets/c419ca0f-898a-445f-b62a-9ad737fc3ff9">
+
 ## Installation
 
 1. Open Obsidian and go to Settings.
