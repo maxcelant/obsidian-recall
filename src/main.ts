@@ -18,6 +18,14 @@ export default class RecallPlugin extends Plugin {
 
 		const reconciler = new Reconciler(this.app, this.settings);
 
+		this.registerEvent(
+			this.app.workspace.on('file-open', async (file) => {
+				if (file) {
+					await this.fileStore.update(file);
+				}
+			})
+		);
+
 		this.registerInterval(
 			window.setInterval(
 				() => {
