@@ -1,14 +1,17 @@
 import { App, TFile, Vault } from "obsidian";
 import { RecallSettings } from "./settings";
+import FileStore from "./store";
 
 export default class Reconciler {
 	private app: App;
 	private vault: Vault;
+	private fileStore: FileStore;
 	private settings: RecallSettings;
 	private recallFolderName: string;
-	constructor(app: App, settings: RecallSettings) {
+	constructor(app: App, fileStore: FileStore, settings: RecallSettings) {
 		this.app = app;
 		this.vault = app.vault;
+		this.fileStore = fileStore;
 		this.settings = settings;
 		this.recallFolderName = this.settings.recallFolderName;
 	}
@@ -43,23 +46,36 @@ export default class Reconciler {
 		await this.app.vault.modify(file, content);
 	}
 
+	async unvisited(file: TFile) {
+		const stat = await this.vault.adapter.stat(file.path);
+		if (!stat) return;
+
+		const lastModified = stat.mtime;
+		const stalenessDate =
+			Date.now() -
+			Number(this.settings.stalenessThreshold) * 24 * 60 * 60 * 1000;
+
+		const lastViewedStr = this.fileStore.get(file);
+		const lastViewed = lastViewedStr
+			? new Date(lastViewedStr).getTime()
+			: null;
+
+		if (!lastViewed) {
+			return lastModified < stalenessDate;
+		}
+		return lastModified < stalenessDate && lastViewed < stalenessDate;
+	}
+
 	async reconcile() {
 		await this.createRecallFolderIfNotExists();
 		this.addRecallFolderToIgnores();
-		this.vault.getMarkdownFiles().forEach(async (file: TFile) => {
+		const files = this.vault.getMarkdownFiles();
+		for (const file of files) {
 			if (this.isIgnoredFolder(file)) {
 				return;
 			}
 
-			const stat = await this.vault.adapter.stat(file.path);
-			if (!stat) return;
-
-			const lastModified = stat.mtime;
-			const stalenessDate =
-				Date.now() -
-				Number(this.settings.stalenessThreshold) * 24 * 60 * 60 * 1000;
-
-			if (lastModified < stalenessDate) {
+			if (await this.unvisited(file)) {
 				await this.touchFile(file);
 				const content = await this.vault.read(file);
 				const newPath = `${this.recallFolderName}/${file.name}`;
@@ -67,6 +83,6 @@ export default class Reconciler {
 					await this.vault.create(newPath, content);
 				}
 			}
-		});
+		}
 	}
 }

@@ -16,14 +16,18 @@ export default class RecallPlugin extends Plugin {
 		this.fileStore = new FileStore(this.app.vault);
 		await this.fileStore.load();
 
-		const reconciler = new Reconciler(this.app, this.settings);
+		const reconciler = new Reconciler(
+			this.app,
+			this.fileStore,
+			this.settings,
+		);
 
 		this.registerEvent(
-			this.app.workspace.on('file-open', async (file) => {
+			this.app.workspace.on("file-open", async (file) => {
 				if (file) {
 					await this.fileStore.update(file);
 				}
-			})
+			}),
 		);
 
 		this.registerInterval(
@@ -38,7 +42,7 @@ export default class RecallPlugin extends Plugin {
 			),
 		);
 
-		const ribbonIconEl = this.addRibbonIcon("brain", "Recall", async () => {
+		const ribbonIconEl = this.addRibbonIcon("timer", "Recall", async () => {
 			new Notice(
 				`Scanning vault for notes to recall and adding them to /${this.settings.recallFolderName} 🔍`,
 			);

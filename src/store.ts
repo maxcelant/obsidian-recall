@@ -30,6 +30,10 @@ export default class FileStore {
 		return this.store;
 	}
 
+	get(file: TFile): string | null {
+		return this.store[file.path];
+	}
+
 	async save() {
 		const json = JSON.stringify(this.store, null, 2);
 		try {
