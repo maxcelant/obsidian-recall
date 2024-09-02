@@ -19,19 +19,19 @@ export default class Reconciler {
 
 	private addRecallFolderToIgnores() {
 		if (
-			!this.settings.ignoreFolders.some(
+			!this.settings.foldersBlacklist.some(
 				(f) => f === this.recallFolderName,
 			)
 		) {
-			this.settings.ignoreFolders = [
-				...this.settings.ignoreFolders,
+			this.settings.foldersBlacklist = [
+				...this.settings.foldersBlacklist,
 				this.recallFolderName,
 			];
 		}
 	}
 
 	isIgnoredFolder(file: TFile) {
-		return this.settings.ignoreFolders.some((folder) =>
+		return this.settings.foldersBlacklist.some((folder) =>
 			file.path.startsWith(folder),
 		);
 	}

@@ -1,5 +1,9 @@
 import { Notice, Plugin, Vault } from "obsidian";
-import { DEFAULT_SETTINGS, RecallSettings, RecallSettingTab } from "src/settings";
+import {
+	DEFAULT_SETTINGS,
+	RecallSettings,
+	RecallSettingTab,
+} from "src/settings";
 import Reconciler from "src/reconciler";
 
 export default class RecallPlugin extends Plugin {
@@ -20,7 +24,7 @@ export default class RecallPlugin extends Plugin {
 		this.registerInterval(
 			window.setInterval(
 				() => reconciler.reconcile(),
-				7 * 24 * 60 * 60 * 1000,
+				Number(this.settings.reconcilePeriod) * 24 * 60 * 60 * 1000,
 			),
 		);
 
