@@ -35,7 +35,7 @@ export default class RecallPlugin extends Plugin {
 				async () => {
 					const count = await reconciler.reconcile();
 					new Notice(
-						`${count} old notes added to /${this.settings.recallFolderName}`,
+						`${count} stale notes added to /${this.settings.recallFolderName}`,
 					);
 				},
 				Number(this.settings.reconcilePeriod) * 60 * 60 * 1000,
@@ -45,7 +45,7 @@ export default class RecallPlugin extends Plugin {
 		const ribbonIconEl = this.addRibbonIcon("timer", "Recall", async () => {
 			const count = await reconciler.reconcile();
 			new Notice(
-				`${count} old notes added to /${this.settings.recallFolderName}`,
+				`${count} stale notes added to /${this.settings.recallFolderName}`,
 			);
 		});
 
@@ -60,7 +60,7 @@ export default class RecallPlugin extends Plugin {
 			callback: async () => {
 				const count = await reconciler.reconcile();
 				new Notice(
-					`${count} old notes added to /${this.settings.recallFolderName}`,
+					`${count} stale notes added to /${this.settings.recallFolderName}`,
 				);
 			},
 		});

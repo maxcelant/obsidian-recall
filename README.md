@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Obsidian Recall Plugin is designed to help you revisit and reinforce your knowledge by surfacing old notes that you haven't interacted with in a while. It automatically identifies notes that haven't been viewed or edited recently and adds them to a designated "Recall" folder, making it easier for you to review and refresh your memory on past ideas and information.
+The Obsidian Recall Plugin is designed to help you revisit and reinforce your knowledge by surfacing stale notes that you haven't interacted with in a while. It automatically identifies notes that haven't been viewed or edited recently and adds them to a designated "Recall" folder, making it easier for you to review and refresh your memory on past ideas and information.
 
 #### Using the `timer` icon in the ribbon will manually trigger it.
 
