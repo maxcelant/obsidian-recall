@@ -6,6 +6,8 @@ The Obsidian Recall Plugin is designed to help you revisit and reinforce your kn
 
 
 Using the `timer` icon in the ribbon will manually trigger it.
+
+
 https://github.com/user-attachments/assets/9d81d5fe-52c0-438c-855c-32ff7f09d8bd
 
 
