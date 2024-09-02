@@ -1,15 +1,20 @@
 import { Notice, Plugin, Vault } from "obsidian";
 import { DEFAULT_SETTINGS, RecallSettings, RecallSettingTab } from "./settings";
 import Reconciler from "./reconciler";
+import FileStore from "./store";
 
 export default class RecallPlugin extends Plugin {
 	settings: RecallSettings;
 	vault: Vault;
+	fileStore: FileStore
 
 	async onload() {
 		await this.loadSettings();
 
 		this.addSettingTab(new RecallSettingTab(this.app, this));
+
+		this.fileStore = new FileStore(this.app.vault)
+		await this.fileStore.load()
 
 		const reconciler = new Reconciler(
 			this.app,
