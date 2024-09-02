@@ -32,21 +32,21 @@ export default class RecallPlugin extends Plugin {
 
 		this.registerInterval(
 			window.setInterval(
-				() => {
+				async () => {
+					const count = await reconciler.reconcile();
 					new Notice(
-						`Scanning vault for notes to recall and adding them to /${this.settings.recallFolderName} 🔍`,
+						`${count} old notes added to /${this.settings.recallFolderName}`,
 					);
-					reconciler.reconcile();
 				},
 				Number(this.settings.reconcilePeriod) * 60 * 60 * 1000,
 			),
 		);
 
 		const ribbonIconEl = this.addRibbonIcon("timer", "Recall", async () => {
+			const count = await reconciler.reconcile();
 			new Notice(
-				`Scanning vault for notes to recall and adding them to /${this.settings.recallFolderName} 🔍`,
+				`${count} old notes added to /${this.settings.recallFolderName}`,
 			);
-			await reconciler.reconcile();
 		});
 
 		ribbonIconEl.addClass("my-plugin-ribbon-class");
@@ -58,10 +58,10 @@ export default class RecallPlugin extends Plugin {
 			id: "recall",
 			name: "Perform vault recall",
 			callback: async () => {
+				const count = await reconciler.reconcile();
 				new Notice(
-					`Scanning vault for notes to recall and adding them to /${this.settings.recallFolderName} 🔍`,
+					`${count} old notes added to /${this.settings.recallFolderName}`,
 				);
-				await reconciler.reconcile();
 			},
 		});
 	}

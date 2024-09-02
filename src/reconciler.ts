@@ -66,7 +66,8 @@ export default class Reconciler {
 		return lastModified < stalenessDate && lastViewed < stalenessDate;
 	}
 
-	async reconcile() {
+	async reconcile(): Promise<number> {
+		let count = 0;
 		await this.createRecallFolderIfNotExists();
 		this.addRecallFolderToIgnores();
 		const files = this.vault.getMarkdownFiles();
@@ -81,7 +82,9 @@ export default class Reconciler {
 				if (!(await this.vault.adapter.exists(newPath))) {
 					await this.vault.create(newPath, content);
 				}
+				count++;
 			}
 		}
+		return count;
 	}
 }
